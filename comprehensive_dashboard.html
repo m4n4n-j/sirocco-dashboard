@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Dashboard - Clinical Trials</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-100 p-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-slate-800 to-slate-600 text-white p-6 rounded-t-xl">
+            <h1 class="text-2xl font-bold">Clinical Trial Patient Behavior & Retention Dashboard</h1>
+            <p class="text-slate-300">Comprehensive analysis for Raga.ai strategic planning</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="bg-white border-b flex flex-wrap" id="tabs">
+            <button class="tab-btn px-4 py-3 text-sm font-medium bg-blue-600 text-white" data-tab="overview">📊 Overview</button>
+            <button class="tab-btn px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100" data-tab="sirocco">🔬 SIROCCO</button>
+            <button class="tab-btn px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100" data-tab="whyNo">❌ Why Say No</button>
+            <button class="tab-btn px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100" data-tab="retention">📈 Retention</button>
+            <button class="tab-btn px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100" data-tab="competitors">🏢 Competitors</button>
+        </div>
+
+        <!-- Content -->
+        <div class="bg-gray-50 p-6 rounded-b-xl min-h-96">
+            <!-- Overview Tab -->
+            <div id="tab-overview" class="tab-content space-y-6">
+                <div class="bg-gradient-to-r from-orange-500 to-amber-500 text-white p-6 rounded-xl">
+                    <h2 class="text-xl font-bold mb-2">🎯 KEY INSIGHT: The Awareness Gap > Willingness Gap</h2>
+                    <p>85% of patients never know trials exist. When asked, 55% agree. The challenge isn't convincing—it's reaching them.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-red-500 text-white p-4 rounded-xl text-center">
+                        <div class="text-3xl font-bold">80%</div>
+                        <div class="text-sm">Trials Fail Timelines</div>
+                    </div>
+                    <div class="bg-orange-500 text-white p-4 rounded-xl text-center">
+                        <div class="text-3xl font-bold">19.1%</div>
+                        <div class="text-sm">Avg Dropout Rate</div>
+                    </div>
+                    <div class="bg-purple-500 text-white p-4 rounded-xl text-center">
+                        <div class="text-3xl font-bold">$19,533</div>
+                        <div class="text-sm">Cost to Replace</div>
+                    </div>
+                    <div class="bg-green-500 text-white p-4 rounded-xl text-center">
+                        <div class="text-3xl font-bold">55%</div>
+                        <div class="text-sm">Accept When Asked</div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <h3 class="font-bold text-blue-800">📉 Pre-Screening Failures</h3>
+                        <ul class="text-sm text-blue-900 mt-2 space-y-1">
+                            <li>• 85% never know trials exist</li>
+                            <li>• 30-35% fear side effects</li>
+                            <li>• 70% live >2hrs from sites</li>
+                        </ul>
+                    </div>
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-4">
+                        <h3 class="font-bold text-amber-800">🚪 Post-Enrollment Dropouts</h3>
+                        <ul class="text-sm text-amber-900 mt-2 space-y-1">
+                            <li>• 42% cite participation burden</li>
+                            <li>• 47-72% disease progression</li>
+                            <li>• 2x dropout if visits stressful</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                        <h3 class="font-bold text-green-800">✅ What Works</h3>
+                        <ul class="text-sm text-green-900 mt-2 space-y-1">
+                            <li>• AI pre-screening (87% accuracy)</li>
+                            <li>• DCT reduces burden 80%</li>
+                            <li>• Community sites improve diversity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIROCCO Tab -->
+            <div id="tab-sirocco" class="tab-content hidden space-y-6">
+                <div class="bg-blue-600 text-white p-4 rounded-xl">
+                    <h2 class="text-xl font-bold">SIROCCO Trial (NCT01928771)</h2>
+                    <p>Phase 3 benralizumab for severe asthma | 374 sites | 17 countries</p>
+                </div>
+                
+                <div class="bg-white border rounded-xl p-6">
+                    <h3 class="font-bold mb-4 text-center">Patient Flow Funnel</h3>
+                    <div class="space-y-2 max-w-lg mx-auto">
+                        <div class="bg-blue-500 text-white p-3 rounded-lg text-center">Screened: 2,681 (100%)</div>
+                        <div class="bg-green-500 text-white p-3 rounded-lg text-center w-4/5 mx-auto">Enrolled: 1,205 (45%)</div>
+                        <div class="bg-emerald-600 text-white p-3 rounded-lg text-center w-3/5 mx-auto">Completed: 844 (70%)</div>
+                    </div>
+                    <div class="mt-4 grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-red-100 p-3 rounded-lg">
+                            <div class="text-2xl font-bold text-red-600">1,476</div>
+                            <div class="text-sm">Screen Failures (55%)</div>
+                        </div>
+                        <div class="bg-amber-100 p-3 rounded-lg">
+                            <div class="text-2xl font-bold text-amber-600">$10.9M</div>
+                            <div class="text-sm">Wasted on Failures</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why No Tab -->
+            <div id="tab-whyNo" class="tab-content hidden space-y-6">
+                <div class="bg-red-50 border border-red-200 rounded-xl p-4">
+                    <h2 class="text-lg font-bold text-red-800 mb-4">❌ Top Reasons Patients Decline</h2>
+                    <div class="space-y-3">
+                        <div class="bg-white p-3 rounded-lg border flex justify-between items-center">
+                            <div><span class="bg-red-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-sm mr-2">1</span> Lack of Awareness</div>
+                            <span class="text-red-600 font-bold">75-85%</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border flex justify-between items-center">
+                            <div><span class="bg-red-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-sm mr-2">2</span> Fear of Side Effects</div>
+                            <span class="text-red-600 font-bold">30-35%</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border flex justify-between items-center">
+                            <div><span class="bg-red-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-sm mr-2">3</span> Treatment Preference</div>
+                            <span class="text-red-600 font-bold">24-30%</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border flex justify-between items-center">
+                            <div><span class="bg-red-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-sm mr-2">4</span> Randomization/Placebo Fear</div>
+                            <span class="text-red-600 font-bold">14-24%</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border flex justify-between items-center">
+                            <div><span class="bg-red-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-sm mr-2">5</span> Logistical Barriers</div>
+                            <span class="text-red-600 font-bold">17-55%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Retention Tab -->
+            <div id="tab-retention" class="tab-content hidden space-y-6">
+                <div class="bg-green-50 border border-green-200 rounded-xl p-4">
+                    <h2 class="text-lg font-bold text-green-800 mb-4">✅ What Works for Retention</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="font-bold text-green-700 mb-2">💰 Financial</h3>
+                            <ul class="text-sm space-y-1">
+                                <li>• Phase I: $3,070 median ($150-$13,000)</li>
+                                <li>• Phase II/III: $1,000-$7,000 total</li>
+                                <li>• Per Visit: $50-$300</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-green-700 mb-2">🚗 Non-Financial</h3>
+                            <ul class="text-sm space-y-1">
+                                <li>• Travel reimbursement</li>
+                                <li>• Telemedicine visits (VERY HIGH impact)</li>
+                                <li>• Home visits / mobile nurses</li>
+                                <li>• Flexible scheduling</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Competitors Tab -->
+            <div id="tab-competitors" class="tab-content hidden space-y-6">
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                    <h2 class="text-lg font-bold text-blue-800 mb-4">🤖 AI-First Competitors</h2>
+                    <div class="grid gap-4">
+                        <div class="bg-white p-4 rounded-lg border">
+                            <div class="font-bold text-blue-700">Inato</div>
+                            <div class="text-sm text-gray-600">Community Site Marketplace + AI Pre-screening</div>
+                            <div class="bg-green-100 text-green-800 text-sm p-2 rounded mt-2">50-90% reduction in pre-screening time</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border">
+                            <div class="font-bold text-blue-700">Deep 6 AI (Tempus)</div>
+                            <div class="text-sm text-gray-600">EMR Mining with NLP/ML | 40M+ patients</div>
+                            <div class="bg-green-100 text-green-800 text-sm p-2 rounded mt-2">3x faster accrual</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border">
+                            <div class="font-bold text-blue-700">Science37</div>
+                            <div class="text-sm text-gray-600">Decentralized Trial Platform</div>
+                            <div class="bg-green-100 text-green-800 text-sm p-2 rounded mt-2">15-21x faster enrollment</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border">
+                            <div class="font-bold text-blue-700">Ripple Science</div>
+                            <div class="text-sm text-gray-600">Behavioral Dropout Prediction</div>
+                            <div class="bg-green-100 text-green-800 text-sm p-2 rounded mt-2">87.5% dropout prediction accuracy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center text-xs text-gray-500 mt-4">
+            <p>Sources: Tufts CSDD, Applied Clinical Trials, PMC studies, FDA, ClinicalTrials.gov</p>
+            <p class="mt-2"><a href="index.html" class="text-blue-600">← Back to Home</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('bg-blue-600', 'text-white');
+                    b.classList.add('text-gray-600');
+                });
+                btn.classList.add('bg-blue-600', 'text-white');
+                btn.classList.remove('text-gray-600');
+                
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

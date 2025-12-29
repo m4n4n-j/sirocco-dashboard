@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIROCCO Dashboard</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F8F9FA; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel" data-type="module" src="SIROCCO_Dashboard_Explained.jsx"></script>
+    <script type="text/babel">
+        // Load the component from the JSX file
+        const script = document.createElement('script');
+        script.src = 'SIROCCO_Dashboard_Explained.jsx';
+        script.type = 'text/babel';
+        document.head.appendChild(script);
+        
+        // Fallback: Render a simple version
+        const { useState } = React;
+        const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } = Recharts;
+
+        const SimpleDashboard = () => {
+            const [tab, setTab] = useState('overview');
+            const colors = { primary: '#1F4E79', secondary: '#5B9BD5', success: '#70AD47', danger: '#C65911', accent: '#ED7D31' };
+            
+            const funnelData = [
+                { name: 'Screened', value: 2681, fill: colors.secondary },
+                { name: 'Enrolled', value: 1205, fill: colors.success },
+                { name: 'Completed', value: 844, fill: colors.primary }
+            ];
+            
+            const comparisonData = [
+                { metric: 'Screen Failure %', sirocco: 55, industry: 36 },
+                { metric: 'Enrollment %', sirocco: 45, industry: 64 }
+            ];
+
+            const tabStyle = (active) => ({
+                padding: '12px 24px', border: 'none', cursor: 'pointer', fontWeight: '600',
+                background: active ? colors.primary : '#eee', color: active ? 'white' : '#333',
+                borderRadius: '8px 8px 0 0', marginRight: '4px'
+            });
+
+            const Card = ({icon, title, value, color}) => (
+                <div style={{background: 'white', borderRadius: '12px', padding: '20px', border: `3px solid ${color}`, minHeight: '120px'}}>
+                    <div style={{fontSize: '24px'}}>{icon}</div>
+                    <div style={{color: '#666', fontSize: '12px', marginTop: '8px'}}>{title}</div>
+                    <div style={{fontSize: '28px', fontWeight: 'bold', color}}>{value}</div>
+                </div>
+            );
+
+            return (
+                <div style={{maxWidth: '1200px', margin: '0 auto', padding: '24px'}}>
+                    <div style={{textAlign: 'center', background: 'white', padding: '24px', borderRadius: '12px', marginBottom: '24px'}}>
+                        <h1 style={{color: colors.primary}}>SIROCCO Clinical Trial Analysis</h1>
+                        <p style={{color: '#666'}}>Phase 3 trial for benralizumab (Fasenra) - 374 sites across 17 countries</p>
+                    </div>
+                    
+                    <div style={{background: 'white', borderRadius: '12px', overflow: 'hidden'}}>
+                        <div style={{padding: '16px 16px 0'}}>
+                            {['overview', 'costs', 'ai'].map(t => (
+                                <button key={t} onClick={() => setTab(t)} style={tabStyle(tab === t)}>
+                                    {t === 'overview' ? '📊 Overview' : t === 'costs' ? '💰 Costs' : '🤖 AI Impact'}
+                                </button>
+                            ))}
+                        </div>
+                        
+                        <div style={{padding: '24px'}}>
+                            {tab === 'overview' && (
+                                <div>
+                                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '32px'}}>
+                                        <Card icon="👥" title="Patients Screened" value="2,681" color={colors.secondary} />
+                                        <Card icon="✅" title="Enrolled" value="1,205" color={colors.success} />
+                                        <Card icon="❌" title="Screen Failures" value="1,476 (55%)" color={colors.danger} />
+                                        <Card icon="🏥" title="Trial Sites" value="374" color={colors.primary} />
+                                    </div>
+                                    <h3 style={{color: colors.primary, marginBottom: '16px'}}>Patient Journey</h3>
+                                    <div style={{height: '250px'}}>
+                                        <ResponsiveContainer>
+                                            <BarChart data={funnelData} layout="vertical">
+                                                <CartesianGrid strokeDasharray="3 3" />
+                                                <XAxis type="number" />
+                                                <YAxis dataKey="name" type="category" width={90} />
+                                                <Tooltip />
+                                                <Bar dataKey="value">{funnelData.map((e,i) => <Cell key={i} fill={e.fill} />)}</Bar>
+                                            </BarChart>
+                                        </ResponsiveContainer>
+                                    </div>
+                                    <h3 style={{color: colors.primary, margin: '24px 0 16px'}}>SIROCCO vs Industry</h3>
+                                    <div style={{height: '200px'}}>
+                                        <ResponsiveContainer>
+                                            <BarChart data={comparisonData}>
+                                                <CartesianGrid strokeDasharray="3 3" />
+                                                <XAxis dataKey="metric" />
+                                                <YAxis unit="%" />
+                                                <Tooltip />
+                                                <Legend />
+                                                <Bar dataKey="sirocco" name="SIROCCO" fill={colors.accent} />
+                                                <Bar dataKey="industry" name="Industry Avg" fill={colors.secondary} />
+                                            </BarChart>
+                                        </ResponsiveContainer>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {tab === 'costs' && (
+                                <div>
+                                    <div style={{background: '#E3F2FD', padding: '16px', borderRadius: '8px', marginBottom: '24px'}}>
+                                        <strong>💡 Trial Economics:</strong> SIROCCO cost ~$85M total. Per-patient: ~$70,500. Screen failures alone: $10.9M wasted.
+                                    </div>
+                                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px'}}>
+                                        {[
+                                            {cat: 'Site Payments', amt: '$25,000/patient', desc: 'Hospital/clinic fees for running the trial'},
+                                            {cat: 'Screen Waste', amt: '$9,035/enrolled', desc: '55% failure rate adds hidden cost to each success'},
+                                            {cat: 'Recruitment', amt: '$6,500/patient', desc: 'Finding eligible patients - 80% of trials miss deadlines'},
+                                            {cat: 'Drug Manufacturing', amt: '$5,000/patient', desc: 'Biologic drugs are expensive to produce'},
+                                            {cat: 'Site Monitoring', amt: '$4,000/patient', desc: 'FDA-required verification visits'},
+                                            {cat: 'Lab Tests', amt: '$3,000/patient', desc: 'Centralized testing for consistency'}
+                                        ].map((c,i) => (
+                                            <div key={i} style={{background: '#f8f9fa', padding: '16px', borderRadius: '8px'}}>
+                                                <div style={{fontWeight: 'bold', color: colors.primary}}>{c.cat}</div>
+                                                <div style={{color: colors.danger, fontWeight: 'bold', fontSize: '18px'}}>{c.amt}</div>
+                                                <div style={{fontSize: '12px', color: '#666', marginTop: '4px'}}>{c.desc}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {tab === 'ai' && (
+                                <div>
+                                    <div style={{background: '#E8F5E9', padding: '16px', borderRadius: '8px', marginBottom: '24px'}}>
+                                        <strong>🤖 AI Pre-Screening:</strong> Reduces review time from 50 min to 9 min (82% faster). 87% real-world accuracy. Could save $3-4M on a trial like SIROCCO.
+                                    </div>
+                                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px'}}>
+                                        <Card icon="⏱️" title="Time per Patient" value="50→9 min" color={colors.success} />
+                                        <Card icon="🎯" title="AI Accuracy" value="87%" color={colors.primary} />
+                                        <Card icon="💰" title="Cost per Screen" value="$42→$5" color={colors.accent} />
+                                        <Card icon="📈" title="Potential Savings" value="$3-4M" color={colors.success} />
+                                    </div>
+                                    <div style={{marginTop: '24px', padding: '16px', background: '#f8f9fa', borderRadius: '8px'}}>
+                                        <h4 style={{color: colors.primary}}>If SIROCCO Used AI:</h4>
+                                        <ul style={{marginTop: '8px', paddingLeft: '20px', color: '#555'}}>
+                                            <li>1,833 CRC hours saved</li>
+                                            <li>$916,500 in labor savings</li>
+                                            <li>20-30% of screen failures prevented</li>
+                                        </ul>
+                                        <p style={{fontSize: '11px', color: '#888', marginTop: '12px'}}>
+                                            Source: Callies et al., Nature Communications Medicine, 2025
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    
+                    <div style={{textAlign: 'center', marginTop: '24px', fontSize: '12px', color: '#666'}}>
+                        <a href="index.html" style={{color: colors.primary}}>← Back to Home</a>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<SimpleDashboard />);
+    </script>
+</body>
+</html>
