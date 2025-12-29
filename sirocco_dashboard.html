@@ -4,171 +4,391 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIROCCO Dashboard</title>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F8F9FA; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .bar { transition: all 0.3s ease; }
+        .bar:hover { filter: brightness(1.1); }
     </style>
 </head>
-<body>
-    <div id="root"></div>
-    <script type="text/babel" data-type="module" src="SIROCCO_Dashboard_Explained.jsx"></script>
-    <script type="text/babel">
-        // Load the component from the JSX file
-        const script = document.createElement('script');
-        script.src = 'SIROCCO_Dashboard_Explained.jsx';
-        script.type = 'text/babel';
-        document.head.appendChild(script);
-        
-        // Fallback: Render a simple version
-        const { useState } = React;
-        const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } = Recharts;
+<body class="min-h-screen bg-gray-100 p-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white rounded-xl shadow p-6 mb-6 text-center">
+            <h1 class="text-3xl font-bold text-blue-900">SIROCCO Clinical Trial Analysis</h1>
+            <p class="text-gray-600 mt-2">Phase 3 trial (NCT01928771) for benralizumab (Fasenra) | 374 sites | 17
+                countries</p>
+            <div class="bg-yellow-100 text-yellow-800 p-3 rounded-lg mt-4 text-sm">
+                💡 <strong>New to Clinical Trials?</strong> Each metric includes plain-English explanations.
+            </div>
+        </div>
 
-        const SimpleDashboard = () => {
-            const [tab, setTab] = useState('overview');
-            const colors = { primary: '#1F4E79', secondary: '#5B9BD5', success: '#70AD47', danger: '#C65911', accent: '#ED7D31' };
-            
-            const funnelData = [
-                { name: 'Screened', value: 2681, fill: colors.secondary },
-                { name: 'Enrolled', value: 1205, fill: colors.success },
-                { name: 'Completed', value: 844, fill: colors.primary }
-            ];
-            
-            const comparisonData = [
-                { metric: 'Screen Failure %', sirocco: 55, industry: 36 },
-                { metric: 'Enrollment %', sirocco: 45, industry: 64 }
-            ];
+        <!-- Tabs -->
+        <div class="bg-white rounded-t-xl flex flex-wrap border-b">
+            <button class="tab-btn px-6 py-3 font-semibold bg-blue-900 text-white rounded-tl-xl" data-tab="overview">📊
+                Overview</button>
+            <button class="tab-btn px-6 py-3 font-semibold text-gray-600 hover:bg-gray-100" data-tab="screening">🔍 Screen
+                Failures</button>
+            <button class="tab-btn px-6 py-3 font-semibold text-gray-600 hover:bg-gray-100" data-tab="costs">💰 Costs</button>
+            <button class="tab-btn px-6 py-3 font-semibold text-gray-600 hover:bg-gray-100" data-tab="ai">🤖 AI Impact</button>
+            <button class="tab-btn px-6 py-3 font-semibold text-gray-600 hover:bg-gray-100" data-tab="glossary">📚
+                Glossary</button>
+        </div>
 
-            const tabStyle = (active) => ({
-                padding: '12px 24px', border: 'none', cursor: 'pointer', fontWeight: '600',
-                background: active ? colors.primary : '#eee', color: active ? 'white' : '#333',
-                borderRadius: '8px 8px 0 0', marginRight: '4px'
+        <!-- Content -->
+        <div class="bg-white rounded-b-xl shadow p-6">
+            <!-- Overview Tab -->
+            <div id="tab-overview" class="tab-content space-y-6">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                    <div class="font-bold text-blue-900">💡 What is SIROCCO?</div>
+                    <p class="text-sm text-gray-700 mt-1">A Phase 3 trial testing <strong>benralizumab</strong> (Fasenra) for
+                        severe eosinophilic asthma. Its 55% screen failure rate vs 36% industry average illustrates both
+                        challenges and AI opportunities in clinical trials.</p>
+                </div>
+
+                <h3 class="text-lg font-bold text-blue-900">Key Metrics</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="border-3 border-blue-500 rounded-xl p-4 bg-white shadow" style="border: 3px solid #5B9BD5">
+                        <div class="text-2xl">👥</div>
+                        <div class="text-xs text-gray-500 uppercase">Patients Screened</div>
+                        <div class="text-3xl font-bold text-blue-600">2,681</div>
+                        <div class="text-xs text-gray-500 mt-1 border-t pt-2">Each screening costs $5,000-$10,000</div>
+                    </div>
+                    <div class="rounded-xl p-4 bg-white shadow" style="border: 3px solid #70AD47">
+                        <div class="text-2xl">✅</div>
+                        <div class="text-xs text-gray-500 uppercase">Enrolled</div>
+                        <div class="text-3xl font-bold text-green-600">1,205</div>
+                        <div class="text-xs text-gray-500 mt-1 border-t pt-2">45% of screened patients qualified</div>
+                    </div>
+                    <div class="rounded-xl p-4 bg-white shadow" style="border: 3px solid #C65911">
+                        <div class="text-2xl">❌</div>
+                        <div class="text-xs text-gray-500 uppercase">Screen Failures</div>
+                        <div class="text-3xl font-bold text-orange-600">1,476</div>
+                        <div class="text-xs text-gray-500 mt-1 border-t pt-2">55% failed - mostly low eosinophils</div>
+                    </div>
+                    <div class="rounded-xl p-4 bg-white shadow" style="border: 3px solid #1F4E79">
+                        <div class="text-2xl">🏥</div>
+                        <div class="text-xs text-gray-500 uppercase">Trial Sites</div>
+                        <div class="text-3xl font-bold text-blue-900">374</div>
+                        <div class="text-xs text-gray-500 mt-1 border-t pt-2">30% of sites enroll zero patients</div>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-bold text-blue-900 mt-6">Patient Journey Funnel</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <div class="bg-blue-500 bar h-10 rounded flex items-center pl-4 text-white font-semibold" style="width:100%">
+                            Screened: 2,681</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="bg-green-500 bar h-10 rounded flex items-center pl-4 text-white font-semibold" style="width:45%">
+                            Enrolled: 1,205 (45%)</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="bg-blue-900 bar h-10 rounded flex items-center pl-4 text-white font-semibold" style="width:31%">
+                            Completed: 844 (70%)</div>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-bold text-blue-900 mt-6">SIROCCO vs Industry</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg text-center">
+                        <div class="text-sm text-gray-600">Screen Failure Rate</div>
+                        <div class="flex justify-center gap-4 mt-2">
+                            <div>
+                                <div class="text-2xl font-bold text-orange-500">55%</div>
+                                <div class="text-xs">SIROCCO</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-blue-400">36%</div>
+                                <div class="text-xs">Industry</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg text-center">
+                        <div class="text-sm text-gray-600">Enrollment Success</div>
+                        <div class="flex justify-center gap-4 mt-2">
+                            <div>
+                                <div class="text-2xl font-bold text-orange-500">45%</div>
+                                <div class="text-xs">SIROCCO</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-blue-400">64%</div>
+                                <div class="text-xs">Industry</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg text-center">
+                        <div class="text-sm text-gray-600">Zero-Enrollment Sites</div>
+                        <div class="flex justify-center gap-4 mt-2">
+                            <div>
+                                <div class="text-2xl font-bold text-orange-500">30%</div>
+                                <div class="text-xs">SIROCCO</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-blue-400">30%</div>
+                                <div class="text-xs">Industry</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            <!-- Screening Tab -->
+            <div id="tab-screening" class="tab-content hidden space-y-6">
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg">
+                    <div class="font-bold text-yellow-800">💡 What is a Screen Failure?</div>
+                    <p class="text-sm text-gray-700 mt-1">When a patient is evaluated but doesn't qualify. Each screening costs
+                        $5,000-$10,000 whether they qualify or not. SIROCCO spent <strong>$10.9 million</strong> on patients who
+                        never contributed data.</p>
+                </div>
+            
+                <h3 class="text-lg font-bold text-blue-900">Why Patients Failed</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-40 text-sm">Low Eosinophils</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-6">
+                            <div class="bg-red-500 bar h-6 rounded-full flex items-center justify-end pr-2 text-white text-xs"
+                                style="width:30.5%">450 (30.5%)</div>
+                        </div><span class="w-20 text-right text-red-600 font-bold text-sm">$3.38M</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-40 text-sm">COPD Misdiagnosis</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-6">
+                            <div class="bg-red-500 bar h-6 rounded-full flex items-center justify-end pr-2 text-white text-xs"
+                                style="width:23.7%">350 (23.7%)</div>
+                        </div><span class="w-20 text-right text-red-600 font-bold text-sm">$2.63M</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-40 text-sm">Few Exacerbations</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-6">
+                            <div class="bg-red-500 bar h-6 rounded-full flex items-center justify-end pr-2 text-white text-xs"
+                                style="width:19%">280 (19%)</div>
+                        </div><span class="w-20 text-right text-red-600 font-bold text-sm">$2.10M</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-40 text-sm">Other Conditions</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-6">
+                            <div class="bg-red-500 bar h-6 rounded-full flex items-center justify-end pr-2 text-white text-xs"
+                                style="width:13.6%">200</div>
+                        </div><span class="w-20 text-right text-red-600 font-bold text-sm">$1.50M</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-40 text-sm">Lab Values</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-6">
+                            <div class="bg-red-500 bar h-6 rounded-full flex items-center justify-end pr-2 text-white text-xs"
+                                style="width:8.1%">120</div>
+                        </div><span class="w-20 text-right text-red-600 font-bold text-sm">$0.90M</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-40 text-sm">Withdrew</div>
+                        <div class="flex-1 bg-gray-200 rounded-full h-6">
+                            <div class="bg-red-500 bar h-6 rounded-full flex items-center justify-end pr-2 text-white text-xs"
+                                style="width:5.1%">76</div>
+                        </div><span class="w-20 text-right text-red-600 font-bold text-sm">$0.38M</span>
+                    </div>
+                </div>
+            
+                <div class="bg-green-100 p-4 rounded-lg mt-6">
+                    <strong class="text-green-700">💡 Key Insight:</strong> AI could prevent ~50% of screen failures by reviewing
+                    records before patients come in. At $7,500 per failed screen = <strong>$2-3M in savings</strong>.
+                </div>
+            </div>
+            
+            <!-- Costs Tab -->
+            <div id="tab-costs" class="tab-content hidden space-y-6">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                    <div class="font-bold text-blue-900">💡 Trial Economics</div>
+                    <p class="text-sm text-gray-700 mt-1">Phase 3 trials cost $20-100+ million. SIROCCO: 1,205 patients ×
+                        $70,500/patient = ~<strong>$85 million total</strong>.</p>
+                </div>
+            
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2"><span class="text-2xl">🏥</span>
+                            <div>
+                                <div class="font-bold text-blue-900">Site Payments</div>
+                                <div class="text-orange-600 font-bold">$25,000/patient</div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600">Hospitals get paid for PI time, coordinator salaries, facilities.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2"><span class="text-2xl">❌</span>
+                            <div>
+                                <div class="font-bold text-blue-900">Screen Waste</div>
+                                <div class="text-orange-600 font-bold">$9,035/enrolled</div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600">55% failure rate adds hidden cost to each successful enrollment.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2"><span class="text-2xl">📢</span>
+                            <div>
+                                <div class="font-bold text-blue-900">Recruitment</div>
+                                <div class="text-orange-600 font-bold">$6,500/patient</div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600">80% of trials miss enrollment deadlines. Finding patients is #1 challenge.
+                        </p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2"><span class="text-2xl">💊</span>
+                            <div>
+                                <div class="font-bold text-blue-900">Drug/Placebo</div>
+                                <div class="text-orange-600 font-bold">$5,000/patient</div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600">Biologic drugs expensive to produce. Placebo must look identical.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2"><span class="text-2xl">🔍</span>
+                            <div>
+                                <div class="font-bold text-blue-900">Monitoring</div>
+                                <div class="text-orange-600 font-bold">$4,000/patient</div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600">FDA requires source data verification visits to all sites.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2"><span class="text-2xl">🧪</span>
+                            <div>
+                                <div class="font-bold text-blue-900">Lab Tests</div>
+                                <div class="text-orange-600 font-bold">$3,000/patient</div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600">Central labs ensure consistent measurements across 374 sites.</p>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-100 p-4 rounded-lg">
+                    <strong class="text-yellow-800">⏱️ Hidden Cost - Delays:</strong>
+                    <span class="text-sm text-yellow-900"> Every day a trial is delayed costs $0.6-8 million in lost revenue. 6-month
+                        delay = $110-1,460 million lost.</span>
+                </div>
+                </div>
+
+            <!-- AI Tab -->
+            <div id="tab-ai" class="tab-content hidden space-y-6">
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+                    <div class="font-bold text-green-800">💡 How AI Changes Screening</div>
+                    <p class="text-sm text-gray-700 mt-1">Traditional: 50+ min/patient, $42+ labor, 55% fail anyway. AI
+                        pre-screening: Reviews records <strong>before</strong> patients come in. CRCs verify in 9 min instead of 50.
+                        Validated accuracy: <strong>87%</strong>.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="rounded-xl p-4 bg-white shadow text-center" style="border: 3px solid #70AD47">
+                        <div class="text-2xl">⏱️</div>
+                        <div class="text-xs text-gray-500">Time per Patient</div>
+                        <div class="text-2xl font-bold text-green-600">50→9 min</div>
+                        <div class="text-xs text-gray-400">82% reduction</div>
+                    </div>
+                    <div class="rounded-xl p-4 bg-white shadow text-center" style="border: 3px solid #1F4E79">
+                        <div class="text-2xl">🎯</div>
+                        <div class="text-xs text-gray-500">Real-World Accuracy</div>
+                        <div class="text-2xl font-bold text-blue-900">87%</div>
+                        <div class="text-xs text-gray-400">485 patients tested</div>
+                    </div>
+                    <div class="rounded-xl p-4 bg-white shadow text-center" style="border: 3px solid #5B9BD5">
+                        <div class="text-2xl">💵</div>
+                        <div class="text-xs text-gray-500">Cost per Screen</div>
+                        <div class="text-2xl font-bold text-blue-600">$42→$5</div>
+                        <div class="text-xs text-gray-400">~10x reduction</div>
+                    </div>
+                    <div class="rounded-xl p-4 bg-white shadow text-center" style="border: 3px solid #ED7D31">
+                        <div class="text-2xl">📊</div>
+                        <div class="text-xs text-gray-500">Benchmark Accuracy</div>
+                        <div class="text-2xl font-bold text-orange-500">93%</div>
+                        <div class="text-xs text-gray-400">Best ever on n2c2</div>
+                    </div>
+                    </div>
+
+                <div class="bg-green-100 p-6 rounded-xl border-2 border-green-400">
+                    <h4 class="font-bold text-green-800 mb-4">📈 If SIROCCO Had Used AI</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div>
+                            <div class="text-2xl font-bold text-green-700">1,833 hrs</div>
+                            <div class="text-sm">CRC Hours Saved</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-green-700">$916K</div>
+                            <div class="text-sm">Labor Savings</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-green-700">$2-3M</div>
+                            <div class="text-sm">Prevented Failures</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-green-700">$3-4M</div>
+                            <div class="text-sm">Total Savings</div>
+                        </div>
+                    </div>
+                </div>
+<div class="text-xs text-gray-500 p-4 bg-gray-50 rounded-lg">
+    <strong>Source:</strong> Callies et al. (2025), "Real-world validation of a multimodal LLM-powered pipeline",
+    <em>Communications Medicine</em> (Nature)
+</div>
+            </div>
+<!-- Glossary Tab -->
+<div id="tab-glossary" class="tab-content hidden space-y-4">
+    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+        <div class="font-bold text-blue-900">📚 Clinical Trial Vocabulary</div>
+        <p class="text-sm text-gray-700 mt-1">Key terms explained with SIROCCO examples.</p>
+    </div>
+
+                <div class="grid gap-4">
+                    <div class="bg-white border rounded-lg p-4 border-l-4 border-blue-900">
+                        <h4 class="font-bold text-blue-900">Screen Failure</h4>
+                        <p class="text-sm text-gray-700">When a patient is evaluated but doesn't qualify. Like a job interview where
+                            they don't get hired — but you still paid for the interview.</p>
+                        <div class="bg-blue-50 p-2 rounded mt-2 text-xs"><strong>SIROCCO:</strong> 1,476 failures cost ~$10.9M</div>
+                    </div>
+                    <div class="bg-white border rounded-lg p-4 border-l-4 border-blue-900">
+                        <h4 class="font-bold text-blue-900">Enrollment</h4>
+                        <p class="text-sm text-gray-700">When a patient officially joins after passing screening. 80% of trials fail to meet
+                            enrollment timelines.</p>
+                        <div class="bg-blue-50 p-2 rounded mt-2 text-xs"><strong>SIROCCO:</strong> 1,205 enrolled (45% of screened)</div>
+                    </div>
+                    <div class="bg-white border rounded-lg p-4 border-l-4 border-blue-900">
+                        <h4 class="font-bold text-blue-900">Eligibility Criteria</h4>
+                        <p class="text-sm text-gray-700">Requirements to join. Modern trials have ~49 criteria on average. Checking takes
+                            50+ minutes per patient.</p>
+                        <div class="bg-blue-50 p-2 rounded mt-2 text-xs"><strong>SIROCCO:</strong> Required eosinophils ≥300 cells/μL —
+                            caused 30.5% of failures</div>
+                    </div>
+                    <div class="bg-white border rounded-lg p-4 border-l-4 border-blue-900">
+                        <h4 class="font-bold text-blue-900">Phase 3 Trial</h4>
+                        <p class="text-sm text-gray-700">Final large-scale testing before FDA approval. Phase 1=safety (20-100), Phase
+                            2=effectiveness (100-500), Phase 3=confirmation (1,000-5,000+).</p>
+                        <div class="bg-blue-50 p-2 rounded mt-2 text-xs"><strong>SIROCCO:</strong> Phase 3 with 1,205 patients → FDA
+                            approval Nov 2017</div>
+                    </div>
+                    </div>
+            </div>
+            </div>
+
+        <!-- Footer -->
+        <div class="text-center text-xs text-gray-500 mt-4">
+            <p>Sources: Bleecker et al., Lancet 2016 | Callies et al., Commun Med 2025 | ClinicalTrials.gov | FDA | Tufts CSDD
+            </p>
+            <p class="mt-2"><a href="index.html" class="text-blue-600 hover:underline">← Back to Home</a></p>
+        </div>
+        </div>
+<script>
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('bg-blue-900', 'text-white');
+                b.classList.add('text-gray-600');
             });
+            btn.classList.add('bg-blue-900', 'text-white');
+            btn.classList.remove('text-gray-600');
 
-            const Card = ({icon, title, value, color}) => (
-                <div style={{background: 'white', borderRadius: '12px', padding: '20px', border: `3px solid ${color}`, minHeight: '120px'}}>
-                    <div style={{fontSize: '24px'}}>{icon}</div>
-                    <div style={{color: '#666', fontSize: '12px', marginTop: '8px'}}>{title}</div>
-                    <div style={{fontSize: '28px', fontWeight: 'bold', color}}>{value}</div>
-                </div>
-            );
-
-            return (
-                <div style={{maxWidth: '1200px', margin: '0 auto', padding: '24px'}}>
-                    <div style={{textAlign: 'center', background: 'white', padding: '24px', borderRadius: '12px', marginBottom: '24px'}}>
-                        <h1 style={{color: colors.primary}}>SIROCCO Clinical Trial Analysis</h1>
-                        <p style={{color: '#666'}}>Phase 3 trial for benralizumab (Fasenra) - 374 sites across 17 countries</p>
-                    </div>
-                    
-                    <div style={{background: 'white', borderRadius: '12px', overflow: 'hidden'}}>
-                        <div style={{padding: '16px 16px 0'}}>
-                            {['overview', 'costs', 'ai'].map(t => (
-                                <button key={t} onClick={() => setTab(t)} style={tabStyle(tab === t)}>
-                                    {t === 'overview' ? '📊 Overview' : t === 'costs' ? '💰 Costs' : '🤖 AI Impact'}
-                                </button>
-                            ))}
-                        </div>
-                        
-                        <div style={{padding: '24px'}}>
-                            {tab === 'overview' && (
-                                <div>
-                                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '32px'}}>
-                                        <Card icon="👥" title="Patients Screened" value="2,681" color={colors.secondary} />
-                                        <Card icon="✅" title="Enrolled" value="1,205" color={colors.success} />
-                                        <Card icon="❌" title="Screen Failures" value="1,476 (55%)" color={colors.danger} />
-                                        <Card icon="🏥" title="Trial Sites" value="374" color={colors.primary} />
-                                    </div>
-                                    <h3 style={{color: colors.primary, marginBottom: '16px'}}>Patient Journey</h3>
-                                    <div style={{height: '250px'}}>
-                                        <ResponsiveContainer>
-                                            <BarChart data={funnelData} layout="vertical">
-                                                <CartesianGrid strokeDasharray="3 3" />
-                                                <XAxis type="number" />
-                                                <YAxis dataKey="name" type="category" width={90} />
-                                                <Tooltip />
-                                                <Bar dataKey="value">{funnelData.map((e,i) => <Cell key={i} fill={e.fill} />)}</Bar>
-                                            </BarChart>
-                                        </ResponsiveContainer>
-                                    </div>
-                                    <h3 style={{color: colors.primary, margin: '24px 0 16px'}}>SIROCCO vs Industry</h3>
-                                    <div style={{height: '200px'}}>
-                                        <ResponsiveContainer>
-                                            <BarChart data={comparisonData}>
-                                                <CartesianGrid strokeDasharray="3 3" />
-                                                <XAxis dataKey="metric" />
-                                                <YAxis unit="%" />
-                                                <Tooltip />
-                                                <Legend />
-                                                <Bar dataKey="sirocco" name="SIROCCO" fill={colors.accent} />
-                                                <Bar dataKey="industry" name="Industry Avg" fill={colors.secondary} />
-                                            </BarChart>
-                                        </ResponsiveContainer>
-                                    </div>
-                                </div>
-                            )}
-                            
-                            {tab === 'costs' && (
-                                <div>
-                                    <div style={{background: '#E3F2FD', padding: '16px', borderRadius: '8px', marginBottom: '24px'}}>
-                                        <strong>💡 Trial Economics:</strong> SIROCCO cost ~$85M total. Per-patient: ~$70,500. Screen failures alone: $10.9M wasted.
-                                    </div>
-                                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px'}}>
-                                        {[
-                                            {cat: 'Site Payments', amt: '$25,000/patient', desc: 'Hospital/clinic fees for running the trial'},
-                                            {cat: 'Screen Waste', amt: '$9,035/enrolled', desc: '55% failure rate adds hidden cost to each success'},
-                                            {cat: 'Recruitment', amt: '$6,500/patient', desc: 'Finding eligible patients - 80% of trials miss deadlines'},
-                                            {cat: 'Drug Manufacturing', amt: '$5,000/patient', desc: 'Biologic drugs are expensive to produce'},
-                                            {cat: 'Site Monitoring', amt: '$4,000/patient', desc: 'FDA-required verification visits'},
-                                            {cat: 'Lab Tests', amt: '$3,000/patient', desc: 'Centralized testing for consistency'}
-                                        ].map((c,i) => (
-                                            <div key={i} style={{background: '#f8f9fa', padding: '16px', borderRadius: '8px'}}>
-                                                <div style={{fontWeight: 'bold', color: colors.primary}}>{c.cat}</div>
-                                                <div style={{color: colors.danger, fontWeight: 'bold', fontSize: '18px'}}>{c.amt}</div>
-                                                <div style={{fontSize: '12px', color: '#666', marginTop: '4px'}}>{c.desc}</div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                            
-                            {tab === 'ai' && (
-                                <div>
-                                    <div style={{background: '#E8F5E9', padding: '16px', borderRadius: '8px', marginBottom: '24px'}}>
-                                        <strong>🤖 AI Pre-Screening:</strong> Reduces review time from 50 min to 9 min (82% faster). 87% real-world accuracy. Could save $3-4M on a trial like SIROCCO.
-                                    </div>
-                                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px'}}>
-                                        <Card icon="⏱️" title="Time per Patient" value="50→9 min" color={colors.success} />
-                                        <Card icon="🎯" title="AI Accuracy" value="87%" color={colors.primary} />
-                                        <Card icon="💰" title="Cost per Screen" value="$42→$5" color={colors.accent} />
-                                        <Card icon="📈" title="Potential Savings" value="$3-4M" color={colors.success} />
-                                    </div>
-                                    <div style={{marginTop: '24px', padding: '16px', background: '#f8f9fa', borderRadius: '8px'}}>
-                                        <h4 style={{color: colors.primary}}>If SIROCCO Used AI:</h4>
-                                        <ul style={{marginTop: '8px', paddingLeft: '20px', color: '#555'}}>
-                                            <li>1,833 CRC hours saved</li>
-                                            <li>$916,500 in labor savings</li>
-                                            <li>20-30% of screen failures prevented</li>
-                                        </ul>
-                                        <p style={{fontSize: '11px', color: '#888', marginTop: '12px'}}>
-                                            Source: Callies et al., Nature Communications Medicine, 2025
-                                        </p>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    
-                    <div style={{textAlign: 'center', marginTop: '24px', fontSize: '12px', color: '#666'}}>
-                        <a href="index.html" style={{color: colors.primary}}>← Back to Home</a>
-                    </div>
-                </div>
-            );
-        };
-
-        ReactDOM.createRoot(document.getElementById('root')).render(<SimpleDashboard />);
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+            });
+        });
     </script>
 </body>
 </html>
